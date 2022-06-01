@@ -1,31 +1,11 @@
 import { GET_PRODUCT, $, $$ } from "./constant.js";
-import { setLocal, getLocal } from "./function.js";
+import { setLocal, getLocal, helper } from "./function.js";
+import { showSuccessToast } from "./toast.js";
+import { getQuantity } from "./getQuantity.js";
 
-async function loadProducts() {
-  try {
-    const { data } = await axios.get(GET_PRODUCT);
-    const payload = [];
-
-    function addToCart(id) {
-      const result = data.find((element) => element.id === +id);
-
-      const product = payload.filter(
-        (element) => element.id === +id && (element.amount += 1)
-      );
-
-      if (product.length === 0) {
-        payload.push({
-          ...result,
-          amount: 1,
-        });
-      }
-      new bootstrap.Toast(document.querySelector("#basicToast")).show();
-      setLocal({ key: "cart", value: payload });
-    }
-
-    if (data) {
-      let html = data.map((item, index) => {
-        return `
+const renderProducts = (data) => {
+  let html = data.map((item, index) => {
+    return `
             <div class="col-12 col-sm-6 col-lg-4 mb-3">
               <div class="product__image">
                 <div class="tag-${item.tag}">
@@ -39,8 +19,8 @@ async function loadProducts() {
                 <div class="product__content text-center">
                   <h3 class="product__title">${item.title}</h3>
                   <p class="main-price my-3">
-                  ${(item.cost * 0.9).toLocaleString()}</sup>Đ</sup>
-                    <del class="product__cost">${item.cost.toLocaleString()}<sup>Đ</sup></del>
+                  ${helper(item.cost * 0.9)}
+                    <del class="product__cost">${helper(item.cost)}</del>
                   </p>
                   <button class="button js-add-cart" data-id=${item.id}>
                     add to cart
@@ -50,10 +30,42 @@ async function loadProducts() {
               </div>
             </div>
         `;
-      });
+  });
+  return { html };
+};
+
+function addToCart({ id, data, payload }) {
+  showSuccessToast({ mes: "Thêm vào giỏ hàng thành công" });
+  const result = data.find((element) => element.id === +id);
+
+  const product = payload.filter(
+    (element) => element.id === +id && (element.amount += 1)
+  );
+
+  if (product.length === 0) {
+    payload.push({
+      ...result,
+      amount: 1,
+    });
+  }
+  setLocal({ key: "cart", value: payload });
+  getQuantity();
+}
+
+async function loadProducts() {
+  try {
+    const { data } = await axios.get(GET_PRODUCT);
+    const payload = getLocal("cart");
+
+    if (data) {
+      const { html } = renderProducts(data);
+
       $("#js-product").innerHTML = html.join(" ");
+
       $$(".js-add-cart").forEach((item) =>
-        item.addEventListener("click", () => addToCart(item.dataset.id))
+        item.addEventListener("click", () =>
+          addToCart({ id: item.dataset.id, data, payload })
+        )
       );
     }
   } catch (e) {
@@ -61,4 +73,7 @@ async function loadProducts() {
   }
 }
 
-window.addEventListener("DOMContentLoaded", loadProducts);
+window.addEventListener("DOMContentLoaded", () => {
+  loadProducts();
+  getQuantity();
+});
