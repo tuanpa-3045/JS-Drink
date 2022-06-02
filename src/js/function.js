@@ -6,7 +6,7 @@ export const setLocal = ({ key, value }) => {
   return localStorage.setItem(key, JSON.stringify(value));
 };
 
-export const helper = (value) => {
+export const formatNumber = (value) => {
   return value.toLocaleString("vi-VN", {
     style: "currency",
     currency: "VND",
