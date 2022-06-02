@@ -31,7 +31,6 @@ router.render = (req, res) => {
   // Then we should include pagination in response
   // Right now, json-server just simply return a list of data without pagination data
   const totalCountHeader = headers["x-total-count"];
-  console.log("headers", totalCountHeader);
   if (req.method === "GET" && totalCountHeader) {
     // Retrieve request pagination
     const queryParams = queryString.parse(req._parsedUrl.query);

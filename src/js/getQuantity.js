@@ -1,4 +1,4 @@
-import { $, $$ } from "./constant.js";
+import { $ } from "./constant.js";
 import { getLocal } from "./function.js";
 
 export function getQuantity() {

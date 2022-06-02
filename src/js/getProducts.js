@@ -4,9 +4,9 @@ import { showSuccessToast } from "./toast.js";
 import { getQuantity } from "./getQuantity.js";
 import { getProducts } from "./api.js";
 import { renderCategory } from "./getCategory.js";
-let params = { _page: 1, _limit: 4 };
-
 import { renderPagination } from "./pagination.js";
+
+let params = { _page: 1, _limit: 6 };
 
 const renderProducts = (data) => {
   let html = data.map((item, index) => {
@@ -39,6 +39,11 @@ const renderProducts = (data) => {
   return { html };
 };
 
+const filterItem = (item) => {
+  let value = item.target.getAttribute("data-category");
+  loadProducts({ ...params, category_like: value });
+};
+
 const addToCart = ({ id, data, payload }) => {
   showSuccessToast({ mes: "Thêm vào giỏ hàng thành công" });
   const result = data.find((element) => element.id === +id);
@@ -59,7 +64,7 @@ const addToCart = ({ id, data, payload }) => {
 
 const handlePagination = (item) => {
   let page = item.target.getAttribute("data-pagination");
-  loadProducts({ _page: page, _limit: 4 });
+  loadProducts({ ...params, _page: page });
 };
 
 export async function loadProducts(params) {
@@ -84,13 +89,15 @@ export async function loadProducts(params) {
     $$(".pagination").forEach((item) => {
       item.addEventListener("click", handlePagination);
     });
+
+    $$(".filter").forEach((item) => item.addEventListener("click", filterItem));
   } catch (e) {
     console.log(e);
   }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  loadProducts(params);
-  getQuantity();
   renderCategory();
+  getQuantity();
+  loadProducts(params);
 });
