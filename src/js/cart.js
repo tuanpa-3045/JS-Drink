@@ -1,50 +1,47 @@
 import { $, $$ } from "./constant.js";
-import { setLocal, getLocal } from "./function.js";
+import { setLocal, getLocal, helper } from "./function.js";
 
-async function getToCart() {
-  try {
-    const localCart = JSON.parse(localStorage.getItem("cart")) || [];
+const handleDecrease = ({ id, data }) => {
+  const result = data.find((element) => element.id === +id);
 
-    const handleDecrease = (id) => {
-      const result = localCart.find((element) => element.id === +id);
+  if (result.amount > 1) {
+    result.amount -= 1;
+  }
 
-      if (result.amount > 1) {
-        result.amount -= 1;
-      }
+  setLocal({ key: "cart", value: data });
+  getToCart();
+};
 
-      setLocal({ key: "cart", value: localCart });
-      getToCart();
-    };
+const handleIncrease = ({ id, data }) => {
+  const result = data.find((element) => element.id === +id);
+  result.amount += 1;
 
-    const handleIncrease = (id) => {
-      const result = localCart.find((element) => element.id === +id);
-      result.amount += 1;
+  setLocal({ key: "cart", value: data });
+  getToCart();
+};
 
-      setLocal({ key: "cart", value: localCart });
-      getToCart();
-    };
+const handleDelete = ({ id, data }) => {
+  const modalDelete = $("#js-modal-delete");
 
-    const handleDelete = (id) => {
-      const modalDelete = $("#js-modal-delete");
+  modalDelete.setAttribute("data-id", id);
+  modalDelete.onclick = () => {
+    const result = data.find((element) => element.id === +id);
+    data.splice(data.indexOf(result), 1);
 
-      modalDelete.setAttribute("data-id", id);
-      modalDelete.onclick = () => {
-        const result = localCart.find((element) => element.id === +id);
-        localCart.splice(localCart.indexOf(result), 1);
+    setLocal({ key: "cart", value: data });
+    getToCart();
+  };
+};
 
-        setLocal({ key: "cart", value: localCart });
-        getToCart();
-      };
-    };
-
-    let html;
-    if (localCart.length > 0) {
-      html = localCart.map((item, index) => {
-        return `
+const handleRenderCart = ({ data }) => {
+  let html;
+  if (data.length > 0) {
+    html = data.map((item, index) => {
+      return `
         <tr class="cart__row">
           <td scope="row"><img src=${item.urlImage} alt="cart image"/></td>
           <td>${item.title}</td>
-          <td>${item.cost.toLocaleString()}</td>
+          <td>${helper(item.cost)}</td>
           <td>
             <button data-id=${item.id} class="decrease"> -
             </button>
@@ -52,7 +49,7 @@ async function getToCart() {
             <button data-id=${item.id} class="increase"> +
             </button>
           </td>
-          <td>${(item.cost * item.amount).toLocaleString()}</td>
+          <td>${helper(item.cost * item.amount)}</td>
           <td>
             <button
               type="button"
@@ -66,27 +63,55 @@ async function getToCart() {
           </td>
         </tr>
       `;
-      });
-    } else {
-      html = `<tr><td colspan="100%" style="text-align: center" >Không có sản phẩm nào trong giỏ hàng. <a href="/list-category-product.html"> Đi đến trang mua hàng </a> </td></tr>`;
-    }
+    });
+  } else {
+    html = `<tr><td colspan="100%" style="text-align: center" >Không có sản phẩm nào trong giỏ hàng. <a href="/list-category-product.html"> Đi đến trang mua hàng </a> </td></tr>`;
+  }
+  return { html };
+};
+
+async function getToCart() {
+  try {
+    const localCart = getLocal("cart");
+    const { html } = handleRenderCart({ data: localCart });
+    const button = [
+      {
+        decrease: "handleDecrease",
+      },
+      {
+        increase: "handleIncrease",
+      },
+      {
+        deleteProduct: "handleDelete",
+      },
+    ];
+
     $("#js-cart-table").innerHTML =
       localCart.length > 0 ? html.join(" ") : html;
 
-    $$(".decrease").forEach((item) =>
-      item.addEventListener("click", () => handleDecrease(item.dataset.id))
-    );
-
-    $$(".increase").forEach((item) =>
-      item.addEventListener("click", () => handleIncrease(item.dataset.id))
-    );
-
-    $$(".deleteProduct").forEach((item) => {
-      item.addEventListener("click", () => handleDelete(item.dataset.id));
+    button.forEach((item) => {
+      $$(`.${Object.keys(item)}`).forEach((element) => {
+        element.addEventListener("click", () => {
+          eval(
+            `${Object.values(item)}({
+              id: element.dataset.id,
+              data: localCart
+            })`
+          );
+        });
+      });
     });
+
+    if (localCart.length > 0) {
+      $("#js-checkout").onclick = () => {
+        window.location.href = "./address.html";
+      };
+    }
   } catch (e) {
     console.log(e);
   }
 }
 
-window.addEventListener("DOMContentLoaded", getToCart);
+window.addEventListener("DOMContentLoaded", () => {
+  getToCart();
+});
