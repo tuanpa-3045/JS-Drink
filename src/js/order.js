@@ -1,5 +1,5 @@
 import { $ } from "./constant.js";
-import { getLocal } from "./function.js";
+import { getLocal, formatNumber } from "./function.js";
 
 const renderCart = (localCart) => {
   let htmlProduct = "",
@@ -13,11 +13,11 @@ const renderCart = (localCart) => {
         <tr class="cart__row">
           <td scope="row"><img src=${item.urlImage} alt="cart image"/></td>
           <td>${item.title}</td>
-          <td>${item.cost.toLocaleString()}</td>
+          <td>${formatNumber(item.cost)}</td>
           <td>
             ${item.amount}
           </td>
-          <td>${(item.cost * item.amount).toLocaleString()} </td>
+          <td>${formatNumber(item.cost * item.amount)} </td>
         </tr>
       `;
     });
@@ -54,7 +54,7 @@ function getOrder() {
   $("#js-cart-table").innerHTML = htmlProduct.join(" ");
   $("#js-cart-user").innerHTML = htmlUser;
   $("#js-total-amount").innerHTML = totalAmount;
-  $("#js-total-money").innerHTML = totalMoney.toLocaleString();
+  $("#js-total-money").innerHTML = formatNumber(totalMoney);
 
   $("#js-finish").addEventListener("click", () => {
     localStorage.removeItem("cart");

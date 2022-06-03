@@ -1,7 +1,12 @@
-import { GET_PRODUCT, $, $$ } from "./constant.js";
-import { setLocal, getLocal, helper } from "./function.js";
+import { $, $$ } from "./constant.js";
+import { setLocal, getLocal, formatNumber } from "./function.js";
 import { showSuccessToast } from "./toast.js";
 import { getQuantity } from "./getQuantity.js";
+import { getProducts } from "./api.js";
+import { renderCategory } from "./getCategory.js";
+import { renderPagination } from "./pagination.js";
+
+let params = { _page: 1, _limit: 6 };
 
 const renderProducts = (data) => {
   let html = data.map((item, index) => {
@@ -19,8 +24,8 @@ const renderProducts = (data) => {
                 <div class="product__content text-center">
                   <h3 class="product__title">${item.title}</h3>
                   <p class="main-price my-3">
-                  ${helper(item.cost * 0.9)}
-                    <del class="product__cost">${helper(item.cost)}</del>
+                  ${formatNumber(item.cost * 0.9)}
+                    <del class="product__cost">${formatNumber(item.cost)}</del>
                   </p>
                   <button class="button js-add-cart" data-id=${item.id}>
                     add to cart
@@ -34,7 +39,12 @@ const renderProducts = (data) => {
   return { html };
 };
 
-function addToCart({ id, data, payload }) {
+const filterItem = (item) => {
+  let value = item.target.getAttribute("data-category");
+  loadProducts({ ...params, category_like: value });
+};
+
+const addToCart = ({ id, data, payload }) => {
   showSuccessToast({ mes: "Thêm vào giỏ hàng thành công" });
   const result = data.find((element) => element.id === +id);
 
@@ -50,30 +60,44 @@ function addToCart({ id, data, payload }) {
   }
   setLocal({ key: "cart", value: payload });
   getQuantity();
-}
+};
 
-async function loadProducts() {
+const handlePagination = (item) => {
+  let page = item.target.getAttribute("data-pagination");
+  loadProducts({ ...params, _page: page });
+};
+
+export async function loadProducts(params) {
   try {
-    const { data } = await axios.get(GET_PRODUCT);
+    const { products, pagination } = await getProducts(params);
+
+    renderPagination(pagination);
+
     const payload = getLocal("cart");
 
-    if (data) {
-      const { html } = renderProducts(data);
+    if (products) {
+      const { html } = renderProducts(products);
 
       $("#js-product").innerHTML = html.join(" ");
 
       $$(".js-add-cart").forEach((item) =>
         item.addEventListener("click", () =>
-          addToCart({ id: item.dataset.id, data, payload })
+          addToCart({ id: item.dataset.id, data: products, payload })
         )
       );
     }
+    $$(".pagination").forEach((item) => {
+      item.addEventListener("click", handlePagination);
+    });
+
+    $$(".filter").forEach((item) => item.addEventListener("click", filterItem));
   } catch (e) {
     console.log(e);
   }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  loadProducts();
+  renderCategory();
   getQuantity();
+  loadProducts(params);
 });

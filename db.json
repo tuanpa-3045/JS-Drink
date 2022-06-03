@@ -1,0 +1,182 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "urlImage" : "./assets/images/Product/1.jpg",
+      "tag": "hot",
+      "category": "RƯỢU NGOẠI",
+      "title": "rượu vang đà lạt",
+      "discount": 370000,
+      "cost": 450000
+    },
+    {
+      "id": 2,
+      "urlImage" : "./assets/images/Product/2.jpg",
+      "tag": "hot",
+      "category": "RƯỢU NGOẠI",
+      "title": "rượu vang đà lạt",
+      "discount": 370000,
+      "cost": 450000
+    },
+    {
+      "id": 3,
+      "urlImage" : "./assets/images/Product/3.jpg",
+      "tag": "hot",
+      "category": "Rượu Chivas",
+      "title": "rượu vang đà lạt",
+      "discount": 370000,
+      "cost": 450000
+    },
+    {
+      "id": 4,
+      "urlImage" : "./assets/images/Product/4.jpg",
+      "tag": "hot",
+      "title": "rượu vang đà lạt",
+      "discount": 370000,
+      "cost": 450000
+    },
+    {
+      "id": 5,
+      "urlImage" : "./assets/images/Product/5.jpg",
+      "tag": "hot",
+      "title": "rượu vang đà lạt",
+      "discount": 370000,
+      "cost": 450000
+    }
+    ,
+    {
+      "id": 6,
+      "urlImage" : "./assets/images/Product/6.jpg",
+      "tag": "hot",
+      "title": "rượu vang đà lạt",
+      "discount": 370000,
+      "cost": 450000
+    }
+    ,
+    {
+      "id": 7,
+      "urlImage" : "./assets/images/Product/7.jpg",
+      "tag": "hot",
+      "title": "rượu vang đà lạt",
+      "discount": 370000,
+      "cost": 450000
+    }
+    ,
+    {
+      "id": 8,
+      "urlImage" : "./assets/images/Product/8.jpg",
+      "tag": "hot",
+      "title": "rượu vang đà lạt",
+      "discount": 370000,
+      "cost": 450000
+    }
+    ,
+    {
+      "id": 9,
+      "urlImage" : "./assets/images/Product/9.jpg",
+      "tag": "hot",
+      "title": "rượu vang đà lạt",
+      "discount": 370000,
+      "cost": 450000
+    },
+    {
+      "id": 10,
+      "urlImage" : "./assets/images/Product/9.jpg",
+      "tag": "hot",
+      "title": "rượu vang đà lạt",
+      "discount": 370000,
+      "cost": 450000
+    }
+    ,
+    {
+      "id": 11,
+      "urlImage" : "./assets/images/Product/9.jpg",
+      "tag": "hot",
+      "title": "rượu vang đà lạt",
+      "discount": 370000,
+      "cost": 450000
+    }
+    ,
+    {
+      "id": 12,
+      "urlImage" : "./assets/images/Product/9.jpg",
+      "tag": "hot",
+      "title": "rượu vang đà lạt",
+      "discount": 370000,
+      "cost": 450000
+    }
+    ,
+    {
+      "id": 13,
+      "urlImage" : "./assets/images/Product/9.jpg",
+      "tag": "hot",
+      "title": "rượu vang đà lạt",
+      "discount": 370000,
+      "cost": 450000
+    }
+    ,
+    {
+      "id": 14,
+      "urlImage" : "./assets/images/Product/9.jpg",
+      "tag": "hot",
+      "title": "rượu vang đà lạt",
+      "discount": 370000,
+      "cost": 450000
+    }
+    ,
+    {
+      "id": 15,
+      "urlImage" : "./assets/images/Product/9.jpg",
+      "tag": "hot",
+      "title": "rượu vang đà lạt",
+      "discount": 370000,
+      "cost": 450000
+    }
+    ,
+    {
+      "id": 16,
+      "urlImage" : "./assets/images/Product/9.jpg",
+      "tag": "hot",
+      "title": "rượu vang đà lạt",
+      "discount": 370000,
+      "cost": 450000
+    }
+    ,
+    {
+      "id": 17,
+      "urlImage" : "./assets/images/Product/9.jpg",
+      "tag": "hot",
+      "title": "rượu vang đà lạt",
+      "discount": 370000,
+      "cost": 450000
+    }
+    ,
+    {
+      "id": 18,
+      "urlImage" : "./assets/images/Product/9.jpg",
+      "tag": "hot",
+      "title": "rượu vang đà lạt",
+      "discount": 370000,
+      "cost": 450000
+    }
+    ,
+    {
+      "id": 19,
+      "urlImage" : "./assets/images/Product/9.jpg",
+      "tag": "hot",
+      "title": "rượu vang đà lạt",
+      "discount": 370000,
+      "cost": 450000
+    }
+    ,
+    {
+      "id": 20,
+      "urlImage" : "./assets/images/Product/9.jpg",
+      "tag": "hot",
+      "title": "rượu vang đà lạt",
+      "discount": 370000,
+      "cost": 450000
+    }
+  ],
+  "categories": ["RƯỢU NGOẠI", "Rượu Chivas", "Hàng độc - Rượu độc đáo", "Johnnie Walker", "Rượu Whisky", "Rượu Remy Martin", "Rượu Glenmorangie ", "Rượu Ballantine's" , "Rượu Cognac", "Rượu Vodka", "Rượu Macallan", "Rượu Brandy", "Rượu Hennessy", "RượuGin - Tequila - Liqueur" , "Rượu mùi", "Rượu Champagne", "Rượu Single malt Scotch whisky", "Rượu Spirits", "RƯỢU VANG", "Rượu Vang Pháp", "Rượu Vang Úc", "Rượu Vang Mỹ", "Rượu Vang ChiLe", "Rượu Vang Philip", "Rượu Vang Nam Phi", "Rượu Vang Ý", "Rượu Vang Argentina" ]
+}

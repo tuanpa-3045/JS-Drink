@@ -1,5 +1,5 @@
 import { $, $$ } from "./constant.js";
-import { setLocal, getLocal, helper } from "./function.js";
+import { setLocal, getLocal, formatNumber } from "./function.js";
 
 const handleDecrease = ({ id, data }) => {
   const result = data.find((element) => element.id === +id);
@@ -41,7 +41,7 @@ const handleRenderCart = ({ data }) => {
         <tr class="cart__row">
           <td scope="row"><img src=${item.urlImage} alt="cart image"/></td>
           <td>${item.title}</td>
-          <td>${helper(item.cost)}</td>
+          <td>${formatNumber(item.cost)}</td>
           <td>
             <button data-id=${item.id} class="decrease"> -
             </button>
@@ -49,7 +49,7 @@ const handleRenderCart = ({ data }) => {
             <button data-id=${item.id} class="increase"> +
             </button>
           </td>
-          <td>${helper(item.cost * item.amount)}</td>
+          <td>${formatNumber(item.cost * item.amount)}</td>
           <td>
             <button
               type="button"
